@@ -1,0 +1,12 @@
+<?php
+
+namespace TUTJunior\CourseType\Model\Product\Type;
+
+class CourseType extends \Magento\Catalog\Model\Product\Type\AbstractType
+{
+
+    public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
+    {
+        // TODO: Implement deleteTypeSpecificData() method.
+    }
+}
