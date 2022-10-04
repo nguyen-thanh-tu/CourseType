@@ -13,13 +13,22 @@ class Fields extends AbstractModifier
 {
     private $locator;
 
+    protected $jsonSerializer;
+
     public function __construct(
-        LocatorInterface $locator
+        LocatorInterface $locator,
+        \Magento\Framework\Serialize\SerializerInterface $jsonSerializer
     ) {
         $this->locator = $locator;
+        $this->jsonSerializer = $jsonSerializer;
     }
     public function modifyData(array $data)
     {
+        $product = reset($data);
+        if(!empty($data[key($data)]['product']['course_timeline']))
+        {
+            $data[key($data)]['product']['course_timeline'] = $this->jsonSerializer->unserialize($product['product']['course_timeline']);
+        }
         return $data;
     }
 
@@ -37,7 +46,7 @@ class Fields extends AbstractModifier
                                     'collapsible' => true,
                                     'opened' => true,
                                     'componentType' => Fieldset::NAME,
-                                    'dataScope' => 'data.course',
+                                    'dataScope' => 'data.product',
                                 ],
                             ],
                         ],
@@ -57,7 +66,8 @@ class Fields extends AbstractModifier
                     'data' => [
                         'config' => [
                             'label'         => __('Document'),
-//                            'component'     => 'Magenest_GoogleShopping/js/dynamic/category/search',
+                            'component'     => 'TUTJunior_CourseType/js/document/document',
+                            'elementTmpl'   => 'TUTJunior_CourseType/form/element/document',
                             'componentType' => Field::NAME,
                             'formElement'   => Input::NAME,
                             'dataScope'     => 'document',
@@ -75,7 +85,7 @@ class Fields extends AbstractModifier
                             'componentType' => 'dynamicRows',
                             'renderDefaultRecord' => false,
                             'recordTemplate' => 'record',
-                            'dataScope' => '',
+                            'dataScope' => 'course_timeline',
                             'dndConfig' => [
                                 'enabled' => false,
                             ],
@@ -149,9 +159,10 @@ class Fields extends AbstractModifier
                                         'config' => [
                                             'formElement' => Input::NAME,
                                             'componentType' => Field::NAME,
-                                            'dataType' => Text::NAME,
+                                            'dataType' => 'string',
                                             'label' => __('Quantity'),
                                             'dataScope' => 'quantity',
+                                            'require' => '1',
                                         ],
                                     ],
                                 ],

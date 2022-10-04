@@ -12,6 +12,7 @@
         <column xsi:type="varchar" name="icon" length="1024" nullable="false" comment="Icon" />
         <column xsi:type="varchar" name="attachment_type" length="1024" nullable="false" comment="Attachment Type" />
         <column xsi:type="varchar" name="file_path" length="1024" nullable="false" comment="File Path" />
+        <column xsi:type="varchar" name="file_link" length="1024" nullable="false" comment="File Link" />
         <column xsi:type="varchar" name="customer_group" comment="Customer Group"/>
         <column xsi:type="varchar" name="file_name" length="1024" nullable="false" comment="File Name" />
         <column xsi:type="varchar" name="file_label" length="1024" nullable="false" comment="File Labal" />

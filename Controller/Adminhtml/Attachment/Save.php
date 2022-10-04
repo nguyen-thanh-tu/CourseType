@@ -56,6 +56,7 @@ class Save extends Action
                 $data['icon'] = $this->getViewFileUrl("TUTJunior_CourseType::icons-image.png");
             }
             $data['customer_group'] = json_encode($data['customer_group']);
+            $data['file_link'] = $data['file_path'][0]['url'];
             $data['mine_type'] = $data['file_path'][0]['type'];
             $data['file_size'] = $data['file_path'][0]['size'];
             $data['file_path'] = json_encode($data['file_path']);
