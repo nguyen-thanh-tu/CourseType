@@ -31,6 +31,52 @@
             </argument>
         </argument>
     </dataSource>
+    <container name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+            </item>
+        </argument>
+        <bookmark name="bookmarks"/>
+        <component name="columns_controls">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsData" xsi:type="array">
+                        <item name="provider" xsi:type="string">course_attachment_listing.course_attachment_listing.magenest_abandonedcart_rule_columns</item>
+                    </item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/columns</item>
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                </item>
+            </argument>
+        </component>
+        <filters name="listing_filters"/>
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="course/attachment/massDelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete Items</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you want to delete selected items?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">course_attachment_listing.course_attachment_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                    <item name="selectProvider" xsi:type="string">course_attachment_listing.course_attachment_listing.course_attachment_columns.ids</item>
+                </item>
+            </argument>
+        </paging>
+    </container>
     <columns name="spinner_columns">
         <selectionsColumn name="ids">
             <argument name="data" xsi:type="array">
@@ -50,15 +96,6 @@
                 </item>
             </argument>
         </column>
-<!--        <column name="icon">-->
-<!--            <argument name="data" xsi:type="array">-->
-<!--                <item name="config" xsi:type="array">-->
-<!--                    <item name="filter" xsi:type="string">textRange</item>-->
-<!--                    <item name="sorting" xsi:type="string">asc</item>-->
-<!--                    <item name="label" xsi:type="string" translate="true">Icon</item>-->
-<!--                </item>-->
-<!--            </argument>-->
-<!--        </column>-->
         <column name="icon" class="TUTJunior\CourseType\Ui\Component\Listing\Column\Icon">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

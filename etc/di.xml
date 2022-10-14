@@ -33,4 +33,5 @@
             <argument name="resourceModel" xsi:type="string">TUTJunior\CourseType\Model\ResourceModel\Attachment</argument>
         </arguments>
     </virtualType>
+    <preference for="Magento\Catalog\Ui\DataProvider\Product\ProductDataProvider" type="TUTJunior\CourseType\Ui\DataProvider\Product\ProductDataProvider" />
 </config>

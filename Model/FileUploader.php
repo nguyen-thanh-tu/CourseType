@@ -17,12 +17,14 @@ class FileUploader
         \Magento\Framework\Filesystem $filesystem,
         \Magento\MediaStorage\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Filesystem\Driver\File $fileDriver,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
         $this->uploaderFactory = $uploaderFactory;
         $this->storeManager = $storeManager;
+        $this->fileDriver = $fileDriver;
         $this->logger = $logger;
         $this->baseTmpPath = "attachment/tmp/file";
         $this->basePath = "attachment/file";
@@ -57,6 +59,11 @@ class FileUploader
     public function getBasePath()
     {
         return $this->basePath;
+    }
+
+    public function checkFileExists($filename)
+    {
+        return $this->fileDriver->isExists($filename);
     }
 
     public function getFilePath($path, $imageName)

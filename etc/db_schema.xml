@@ -25,5 +25,9 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="entity_id" />
         </constraint>
+        <constraint xsi:type="unique" referenceId="ATTACHMENT_FILENAME_FILELABEL">
+            <column name="file_name"/>
+            <column name="file_label"/>
+        </constraint>
     </table>
 </schema>

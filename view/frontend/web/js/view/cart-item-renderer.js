@@ -5,8 +5,10 @@
 
 define([
     'jquery',
-    'uiComponent'
-], function ($, Component) {
+    'uiComponent',
+    'Magento_Customer/js/customer-data',
+    'Magento_Customer/js/model/customer/address'
+], function ($, Component, customerData, CustomerAddress) {
     'use strict';
 
     return Component.extend({
@@ -33,6 +35,18 @@ define([
         },
 
         increCartQty: function (idElement) {
+            var customer = customerData.get('customer');
+            console.log(customer().fullname);
+            $( "#html-body" ).prepend( "<script>\n" +
+                "  var _cdp365Analytics = {\n" +
+                "       user_identify: {\n" +
+                "          login_id: ,\n" +
+                "          user_name: "+ customer().fullname +",\n" +
+                "          phone: ,\n" +
+                "          email: \n" +
+                "       }\n" +
+                "}\n" +
+                "</script>" );
             $(idElement).on('click', function(){
                 var obj = $(this);
                 var currentQty = obj.siblings('.cart-item-qty').val();

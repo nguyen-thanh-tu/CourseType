@@ -26,15 +26,17 @@ class Save extends Action
         \Psr\Log\LoggerInterface $logger,
         Attachment $attachmentResource,
         AttachmentFactory $attachmentFactory,
-        ModelAttachment $customModel,
+        ModelAttachment $modelAttachment,
+        \TUTJunior\CourseType\Model\FileUploaderFactory $fileUploaderFactory,
         Context $context
     )
     {
         $this->assetRepo = $assetRepo;
         $this->logger = $logger;
-        $this->customModel = $customModel;
+        $this->modelAttachment = $modelAttachment;
         $this->attachmentResource = $attachmentResource;
         $this->attachmentFactory = $attachmentFactory;
+        $this->fileUploaderFactory = $fileUploaderFactory->create();
         parent::__construct($context);
     }
 
@@ -46,24 +48,28 @@ class Save extends Action
         $resultRedirect = $this->resultRedirectFactory->create();
         $data = $this->getRequest()->getPostValue();
         if ($data) {
-            $id = $this->getRequest()->getParam('entity_id')?:null;
-//            $model = $this->attachmentFactory->create();
-//            $this->attachmentResource->load($model, $id);
-            $customModel = $this->customModel->load($id);
-            if($data['attachment_type'] == 'file'){
-                $data['icon'] = $this->getViewFileUrl("TUTJunior_CourseType::icons-file.png");
-            } if($data['attachment_type'] == 'image') {
-                $data['icon'] = $this->getViewFileUrl("TUTJunior_CourseType::icons-image.png");
-            }
-            $data['customer_group'] = json_encode($data['customer_group']);
-            $data['file_link'] = $data['file_path'][0]['url'];
-            $data['mine_type'] = $data['file_path'][0]['type'];
-            $data['file_size'] = $data['file_path'][0]['size'];
-            $data['file_path'] = json_encode($data['file_path']);
-//            $model->setData($data);
-            $customModel->setData($data)->setId($id);
             try {
-//                $this->attachmentResource->save($model);
+                $id = $this->getRequest()->getParam('entity_id')?:null;
+                $customModel = $this->modelAttachment->load($id);
+                if($data['attachment_type'] == 'file'){
+                    $data['icon'] = $this->getViewFileUrl("TUTJunior_CourseType::icons-file.png");
+                } if($data['attachment_type'] == 'image') {
+                    $data['icon'] = $this->getViewFileUrl("TUTJunior_CourseType::icons-image.png");
+                }
+                $data['customer_group'] = json_encode($data['customer_group']);
+                $data['mine_type'] = $data['file_path'][0]['type'];
+                $data['file_size'] = $data['file_path'][0]['size'];
+
+                if($this->fileUploaderFactory->checkFileExists($this->fileUploaderFactory->getBaseTmpPath().'/'.$data['file_path'][0]['name']))
+                {
+                    $data['file_path'][0]['path'] = str_replace($this->fileUploaderFactory->getBaseTmpPath(),$this->fileUploaderFactory->getBasePath(),$data['file_path'][0]['path']);
+                    $data['file_path'][0]['url'] = str_replace($this->fileUploaderFactory->getBaseTmpPath(),$this->fileUploaderFactory->getBasePath(),$data['file_path'][0]['url']);
+                    $data['file_link'] = $data['file_path'][0]['url'];
+                    $this->fileUploaderFactory->moveFileFromTmp($data['file_path'][0]['name']);
+                }
+
+                $data['file_path'] = json_encode($data['file_path']);
+                $customModel->setData($data)->setId($id);
                 $customModel->save();
                 $this->messageManager->addSuccessMessage(__('You saved the Brand.'));
 
