@@ -14,8 +14,8 @@
         <column xsi:type="varchar" name="file_path" length="1024" nullable="false" comment="File Path" />
         <column xsi:type="varchar" name="file_link" length="1024" nullable="false" comment="File Link" />
         <column xsi:type="varchar" name="customer_group" comment="Customer Group"/>
-        <column xsi:type="varchar" name="file_name" length="1024" nullable="false" comment="File Name" />
-        <column xsi:type="varchar" name="file_label" length="1024" nullable="false" comment="File Labal" />
+        <column xsi:type="varchar" name="file_name" length="254" nullable="false" comment="File Name" />
+        <column xsi:type="varchar" name="file_label" length="254" nullable="false" comment="File Labal" />
         <column xsi:type="varchar" name="mine_type" length="1024" nullable="false" comment="Mine Type" />
         <column xsi:type="varchar" name="file_size" length="1024" nullable="false" comment="File Size" />
         <column xsi:type="boolean" name="is_visible" comment="Visible" nullable="false" default="1"/>
