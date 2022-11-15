@@ -7,7 +7,6 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\Exception\LocalizedException;
 use TUTJunior\CourseType\Model\ResourceModel\Attachment;
 use TUTJunior\CourseType\Model\AttachmentFactory;
-use TUTJunior\CourseType\Model\Attachment as ModelAttachment;
 
 class Save extends Action
 {
@@ -26,14 +25,12 @@ class Save extends Action
         \Psr\Log\LoggerInterface $logger,
         Attachment $attachmentResource,
         AttachmentFactory $attachmentFactory,
-        ModelAttachment $modelAttachment,
         \TUTJunior\CourseType\Model\FileUploaderFactory $fileUploaderFactory,
         Context $context
     )
     {
         $this->assetRepo = $assetRepo;
         $this->logger = $logger;
-        $this->modelAttachment = $modelAttachment;
         $this->attachmentResource = $attachmentResource;
         $this->attachmentFactory = $attachmentFactory;
         $this->fileUploaderFactory = $fileUploaderFactory->create();
@@ -50,7 +47,7 @@ class Save extends Action
         if ($data) {
             try {
                 $id = $this->getRequest()->getParam('entity_id')?:null;
-                $customModel = $this->modelAttachment->load($id);
+                $customModel = $this->attachmentFactory->create()->load($id);
                 if($data['attachment_type'] == 'file'){
                     $data['icon'] = $this->getViewFileUrl("TUTJunior_CourseType::icons-file.png");
                 } if($data['attachment_type'] == 'image') {
